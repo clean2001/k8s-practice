@@ -26,3 +26,18 @@ jobs:
       
       - name: update cluster information
         run: aws eks update-kubeconfig --name 6team-cluster --region ap-northeast-2
+      
+      - name: login ECR
+        id: login-ecr
+        uses: aws-actions/amaxon-ecr-login@v1
+      
+      - name: build and push docker images to ecr
+        env: # 변수를 지정하는 부분
+          REGISTRY: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com
+          REPOSITORY: clean-ordersystem # AWS ecr의 프라이빗 리포지토리 이름을 의미
+        run: |
+          docker build -t $REGISTRY/REPOSITORY:latest \
+          -f ./ordersystem/Dockerfile ./ordersystem
+          docker push $REGISTRY/REPOSITORY:latest
+
+
