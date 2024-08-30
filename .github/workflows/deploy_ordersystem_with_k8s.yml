@@ -17,7 +17,7 @@ jobs:
           version: "v1.25.9"
         id: install
 
-      - name: configure aws # aws configure 해서 key값 세팅
+      - name: configure aws # aws configure 해서 key값 세팅하는 부분
         uses: aws-actions/configure-aws-credentials@v1
         with: 
           aws-access-key-id: ${{secrets.AWS_KEY}}
@@ -38,5 +38,3 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:latest -f ./ordersystem/Dockerfile ./ordersystem
           docker push $REGISTRY/$REPOSITORY:latest
-
-
