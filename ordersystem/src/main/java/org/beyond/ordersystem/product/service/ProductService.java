@@ -106,6 +106,9 @@ public class ProductService {
         } catch(IOException e) {
             e.printStackTrace();
             throw new RuntimeException("이미지 저장 실패");
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("알수없는 에러");
         }
     }
 
