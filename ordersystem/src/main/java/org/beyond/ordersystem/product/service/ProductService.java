@@ -80,28 +80,38 @@ public class ProductService {
         Product product = null;
 
         try {
-
+            log.info("line 83: ");
             product = CreateProductRequest.toEntity(createProductRequest);
+            log.info("line 85: ");
             Product savedProduct = productRepository.save(product);
+            log.info("line 87: ");
 
             byte[] bytes = image.getBytes(); // 이미지 자체는 바이트 형태로 받아옴. 근데 바이트 형태로는 아마 AWS에 올라가지 않을 것이다.
+            log.info("line 90: ");
             String fileName = product.getId() + "_" + image.getOriginalFilename();
+            log.info("line 92: ");
             // 로컬 PC에 임시저장. 파일로 바꾸고 올리기 위해서!!
             // 프론트엔드에서 직접 올릴 때에는 이렇게 변환해줄 필요가 없다. 파일로 가지고 있으니까
             Path path = Paths.get("/tmp", fileName);
+            log.info("line 96: ");
             // local pc에 임시 저장
             Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
 
+            log.info("line 100: ");
             // aws에 pc에 저장된 파일을 업로드
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucketName)
                     .key(fileName)
                     .build();
 
+                    log.info("line 107: ");
             PutObjectResponse putObjectResponse = s3Client.putObject(putObjectRequest, RequestBody.fromFile(path));
+            log.info("line 109: ");
             // 이 s3Path는 https:// 를 달고 나오는 파일이다.
             String s3Path = s3Client.utilities().getUrl(a -> a.bucket(bucketName).key(fileName)).toExternalForm();
+            log.info("line 112: ");
             product.updateImagePath(s3Path);
+            log.info("line 114: ");
             return savedProduct.getId();
         } catch(IOException e) {
             e.printStackTrace();
