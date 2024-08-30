@@ -36,8 +36,8 @@ jobs:
           REGISTRY: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com
           REPOSITORY: clean-ordersystem # AWS ecr의 프라이빗 리포지토리 이름을 의미
         run: |
-          docker build -t $REGISTRY/REPOSITORY:latest \
+          docker build -t $REGISTRY/$REPOSITORY:latest \
           -f ./ordersystem/Dockerfile ./ordersystem
-          docker push $REGISTRY/REPOSITORY:latest
+          docker push $REGISTRY/$REPOSITORY:latest
 
 
