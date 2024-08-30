@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: clean
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-nginx # ⭐️ 해당 deployment는 labels.app=nginx인 파드만을 관리하겠다.
+  template:
+  # 아래 labels.app 부분은 service의 selector 부분과 일치해야하고, 위의 matchLabels 부분과도 일치해야함
+    metadata:
+      labels:
+        app: my-nginx  # ⭐️
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+          - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: clean
+spec: 
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80 # 파드의 내부 포트와 일치
+      nodePort: 30604
+  selector:
+    app: my-nginx # ⭐️

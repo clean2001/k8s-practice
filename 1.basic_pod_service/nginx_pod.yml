@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: nginx-pod # 파드의 이름을 명시
-  namespace: clean-ns
+  namespace: clean
   # labels는 service의 라우팅 대상이 되는 이름
   # service는 selector.app을 통해 매핑
   labels:

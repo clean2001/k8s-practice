@@ -2,13 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx-service
-  namespace: clean-ns
+  namespace: clean
 spec:
   # node를 통해 직접 접근 가능한 타입
-  type: NodePort # 총 3개의 자원을 다룰 것이다.
+  type: NodePort # 총 3개의 자원을 다룰 것이다. 노드포트는 일반적으로 쓰는 방법은 아님. 간단하게 해보려고 이렇게 한 것이다.
   ports:
   - port: 80 # service의 Port를 의미한다. http의 80을 의미
-    targetport: 80 # service가 라우팅 해줄 대상(=Pod)의 port. 즉 ⭐️ 대상 파드의 포트와 일치해야한다!!!. nginx의 80을 의미
+    targetPort: 80 # service가 라우팅 해줄 대상(=Pod)의 port. 즉 ⭐️ 대상 파드의 포트와 일치해야한다!!!. nginx의 80을 의미
     nodePort: 30604
   selector:
     app: my-nginx # ⭐️ service의 selector.app과 pod의 labels.app이 일치해야한다!

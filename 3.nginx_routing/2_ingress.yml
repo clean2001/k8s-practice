@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: clean
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-nginx # ⭐️ 해당 deployment는 labels.app=nginx인 파드만을 관리하겠다.
+  template:
+  # 아래 labels.app 부분은 service의 selector 부분과 일치해야하고, 위의 matchLabels 부분과도 일치해야함
+    metadata:
+      labels:
+        app: my-nginx  # ⭐️
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+          - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: clean
+spec: 
+# Ingress를 적용하기 위해 Cluster IP로 변경한다.
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80 # 파드의 내부 포트와 일치
+  selector:
+    app: my-nginx
+---
+# ingress-controller 설치는 별도 필요
+# ingress-controller도 nginx 기반으로 구성돼있다.
+# ingress-controller를 설치시에 alb가 생성된다. Ingress 자원과 함께 서비스 라우팅을 수행
+# 해당 alb가 엔드포인트가 됨
+# 중요!! 아래는 보일러플레이트 (아래는 팀장이 한번만 수행하기. ingress(=alb)는 하나만 만들어지면 된다.)
+# ingress controller 1개에서 여러개의 ingress로 라우팅한다.
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/aws/deploy.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-nginx-ingress
+  namespace: clean
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1 # 첫번째 prefix 제거 후 인그레스로 보냄
+spec:
+  rules:
+  - host: server.clean01.store
+    http:
+      paths:
+      - path: /product-service/(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
+      - path: /order-service/(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
