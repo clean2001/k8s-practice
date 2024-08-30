@@ -16,7 +16,7 @@ spec:
   - host: server.clean01.store
     http:
       paths:
-      - path: /(.*)
+      - path: /
         pathType: Prefix
         backend:
           service:
