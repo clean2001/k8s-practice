@@ -31,6 +31,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       
+      # 이곳에서 가장 빈번한 변경이 일어남(이미지)
       - name: build and push docker images to ecr
         env: # 변수를 지정하는 부분
           REGISTRY: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com
@@ -38,3 +39,8 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:latest -f ./ordersystem/Dockerfile ./ordersystem
           docker push $REGISTRY/$REPOSITORY:latest
+      # deployment가 변경되면 반영하는 부분
+      - name: eks kubectl apply
+        run: |
+          kubectl apply -f ./ordersystem/k8s/ordersystem_depl.yml
+          kubectl rollout restart deployment ordersystem-deployment -n clean
