@@ -43,5 +43,5 @@ jobs:
       - name: eks kubectl apply
         run: |
           kubectl apply -f ./ordersystem/k8s/ordersystem_depl.yml
-          kubectl rollout restart deployment ordersystem-deployment
+          kubectl rollout restart deployment ordersystem-deployment -n clean
         # kubectl rollout restart deployment ordersystem-deployment -n clean
