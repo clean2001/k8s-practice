@@ -25,7 +25,7 @@ jobs:
           aws-region: ap-northeast-2
       
       - name: update cluster information
-        run: aws eks update-kubeconfig --name clean-cluster --region ap-northeast-2 # 원래는 6team-cluster
+        run: aws eks update-kubeconfig --name 6team_cluster --region ap-northeast-2 # 원래는 6team-cluster
       
       - name: login ECR
         id: login-ecr
@@ -34,8 +34,8 @@ jobs:
       # 이곳에서 가장 빈번한 변경이 일어남(이미지)
       - name: build and push docker images to ecr
         env: # 변수를 지정하는 부분
-          REGISTRY: 331107340588.dkr.ecr.ap-northeast-2.amazonaws.com
-          REPOSITORY: order-system # AWS ecr의 프라이빗 리포지토리 이름을 의미
+          REGISTRY: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com
+          REPOSITORY: clean-ordersystem # AWS ecr의 프라이빗 리포지토리 이름을 의미
         run: |
           docker build -t $REGISTRY/$REPOSITORY:latest -f ./ordersystem/Dockerfile ./ordersystem
           docker push $REGISTRY/$REPOSITORY:latest
