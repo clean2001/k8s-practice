@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ordersystem-deployment
-  # namespace: clean
+  namespace: clean
 spec:
   replicas: 2
   selector:
@@ -17,7 +17,7 @@ spec:
       containers:
         - name: ordersystem
         # aws의 ecr 주소를 사용
-          image: 331107340588.dkr.ecr.ap-northeast-2.amazonaws.com/order-system:latest
+          image: 331107340588.dkr.ecr.ap-northeast-2.amazonaws.com/clean-ordersystem:latest
           ports:
           - containerPort: 8080 # ⭐️ 포트 주의!!
           resources:
@@ -27,8 +27,8 @@ spec:
               memory: "500Mi"
           # 최소 할당량
             requests:
-              cpu: "1"
-              memory: "500Mi"
+              cpu: "0.5"
+              memory: "250Mi"
           env:
           - name: REDIS_HOST
             valueFrom:
