@@ -45,3 +45,4 @@ jobs:
           kubectl apply -f ./ordersystem/k8s/ordersystem_depl.yml
           kubectl rollout restart deployment ordersystem-deployment -n clean
         # kubectl rollout restart deployment ordersystem-deployment -n clean
+        # rollout restart: 기존 파드를 내리고 새로운 파드 재실행
