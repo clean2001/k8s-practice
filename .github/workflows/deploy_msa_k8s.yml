@@ -42,7 +42,7 @@ jobs:
       # deployment가 변경되면 반영하는 부분
       - name: eks kubectl apply
         run: |
-          kubectl apply -f ./msa/member/k8s/member_depl.yml
+          kubectl apply -f ./msa/member/k8s/member-depl.yml
           kubectl rollout restart deployment member-deployment -n clean
 
       - name: build and push docker order images to ecr
