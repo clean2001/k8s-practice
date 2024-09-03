@@ -1,0 +1,71 @@
+
+spring:
+  redis:
+    # 아래 REDIS_HOST는 deployment에서 정의한 env 변수명과 일치해야 함
+    host: ${REDIS_HOST}
+    port: 6379
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${DB_HOST}:3306/ordersystem
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+#  # rabbit mq 환경 설정
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+#    virtual-host: / # 관례적으로 적는 것
+
+
+  jpa:
+    database : mysql
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show_sql: true
+  application:
+    name: product-service
+#  kafka:
+#    bootstrap-servers: localhost:9092
+#    consumer:
+#      # group-id는 컨슈머 그룹을 식별하는 ID이다. 동일한 그룹 아이디를 가진 컨슈머들은 메시지를 분담해서 consume한다.
+#      group-id: order-group
+#      # 가장 처음으로 사용 가능한 메시지부터 읽기 시작
+#      auto-offset-reset: earliest
+#eureka:
+#  client:
+#    serviceUrl:
+#      # eureka의 product 서비스로서 등록 지정
+#      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    root: info
+    # 로그 레벨: trace < debug < info < error 순서의 로그 레벨을 가진다.
+    # 즉, info로 설정시 trace, debug 로그는 출력되지 않음
+    # 로그 파일 경로와 파일 명 지정
+  file:
+    name: logs/app.log
+
+jwt:
+  expiration: 30
+  secretKey: my_token_secret
+  expiration-rt: 14400 # 10일
+  secretKey-rt: hackathon
+
+cloud:
+  aws:
+    credentials:
+      access-key: xxxxx
+      secret-key: yyyyy
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: sejeong-file
+
+
+
+

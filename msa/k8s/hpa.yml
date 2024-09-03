@@ -1,0 +1,25 @@
+# Horizontal Pod Autoscaler => 
+# 컨테이너 자동확장
+# 매트릭 서버(파드의 자원 상황 모니터링 툴) 설치
+# kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ordersystem-hpa
+  namespace: clean
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ordersystem-deployment
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 50 # CPU 점유율이 50%가 넘으면 증설된다.
+
+# 부하 테스트 스크립트
+# kubectl exec -it 파드명 /bin/bash -n 네임스페이스
+# while true; do curl -s http://ordersystem-service/product/list; done
+
+# 부하 모니터링
+# -w: watch 옵션. 실시간으로 조회하라는 의미이다.
+# kubectl get hpa ordersystem-hpa -n clean -w
