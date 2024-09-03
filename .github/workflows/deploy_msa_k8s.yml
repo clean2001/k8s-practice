@@ -55,7 +55,7 @@ jobs:
       # deployment가 변경되면 반영하는 부분
       - name: eks kubectl apply
         run: |
-          kubectl apply -f ./msa/order/k8s/order_depl.yml
+          kubectl apply -f ./msa/order/k8s/order-depl.yml
           kubectl rollout restart deployment order-deployment -n clean
 
 
@@ -70,5 +70,5 @@ jobs:
       # deployment가 변경되면 반영하는 부분
       - name: eks kubectl apply
         run: |
-          kubectl apply -f ./msa/product/k8s/product_depl.yml
+          kubectl apply -f ./msa/product/k8s/product-depl.yml
           kubectl rollout restart deployment product-deployment -n clean
