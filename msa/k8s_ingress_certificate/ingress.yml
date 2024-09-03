@@ -17,26 +17,26 @@ spec:
   - host: server.clean01.store
     http:
       paths:
-      - path: /member-service/(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: member-service
-            port:
-              number: 80 # 서비스 포트를 적어 줘야 한다.
-      - path: /order-service/(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: order-service
-            port:
-              number: 80 # 서비스 포트를 적어 줘야 한다.
-      
-      - path: /product-service/(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: product-service
-            port:
-              number: 80 # 서비스 포트를 적어 줘야 한다.
+        - path: /member-service/(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: member-service
+              port:
+                number: 80 # 서비스 포트를 적어 줘야 한다.
+        - path: /order-service/(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: order-service
+              port:
+                number: 80 # 서비스 포트를 적어 줘야 한다.
+        
+        - path: /product-service/(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: product-service
+              port:
+                number: 80 # 서비스 포트를 적어 줘야 한다.
 
